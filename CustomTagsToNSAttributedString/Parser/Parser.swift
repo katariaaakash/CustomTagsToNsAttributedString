@@ -6,19 +6,20 @@
 //  Copyright © 2018 Aakash Kataria. All rights reserved.
 //
 
+// UIFont, UIColor
 import Foundation
+import UIKit
 
 protocol ParserDelegate: class {
     func unableToParse(_ message: String)
     func tagClassNotDefined(_ tag: String)
 }
 class Parser {
-    var htmlString: String
-    var parseStackStringForm: [String] = []
+    var parserModel: ParserModel
     weak var delegate: ParserDelegate?
     
-    init(htmlString: String) {
-        self.htmlString = ParserConstants.openingDefault + htmlString + ParserConstants.closingDefault
+    init(parserModel: ParserModel) {
+        self.parserModel = parserModel
     }
     
     func parseString() -> NSAttributedString?{
@@ -33,8 +34,29 @@ class Parser {
 }
 
 extension Parser {
+    func getTagFromString(tag:String, attributes:[String]) -> Tag? {
+        guard let tag: Tag = ParserUtils.getTag(tag: tag, attributes: attributes) else {
+            return nil
+        }
+        return tag
+    }
+    
+    func getFeatureFromTag(stringParts: [String]) -> FeatureContainer? {
+        var tag:String = stringParts[0]
+        var attributes:[String] = Array(stringParts[1...stringParts.count-1])
+        guard let tagObj:Tag = ParserUtils.getTag(tag: tag, attributes: attributes) else {
+            self.delegate?.unableToParse(ParserConstants.badString)
+            return nil
+        }
+        return tagObj.featureContainer
+    }
+    
     func getAttributedString() -> NSAttributedString? {
-        for elem in self.parseStackStringForm {
+        var attributedString:NSMutableAttributedString = NSMutableAttributedString.init()
+        var partialUnParsedString: String = ""
+        var featureContainer: FeatureContainer
+        var features:[FeatureContainer] = []
+        for (index, elem) in self.parserModel.parseStackStringForm.enumerated() {
             guard elem.count > 0 else {
                 return nil
             }
@@ -43,202 +65,120 @@ extension Parser {
                     delegate?.unableToParse(ParserConstants.unableToParseMessage)
                     return nil
                 }
-                
+                var stringParts = openingTag.components(separatedBy: " ")
+                if let featureFromTag = getFeatureFromTag(stringParts: stringParts) {
+                    features.append(featureFromTag)
+                }
+                else {
+                    self.delegate?.unableToParse(ParserConstants.badString)
+                    return nil
+                }
             } else if elem[0] == ParserConstants.closingTagLimiter {
-                
+                features.popLast()
             } else {
-                
+                partialUnParsedString = elem
+                if let partialAttrString = ParserUtils.getPartialAttributedString(partialUnParsedString: partialUnParsedString, feature: features[features.count - 1]) {
+                    attributedString.append(partialAttrString)
+                }
+                else {
+                    self.delegate?.unableToParse(ParserConstants.badString)
+                    return nil
+                }
             }
         }
-        return nil
+        return attributedString
     }
     
     func parseHtmlString() {
         var parseStack:[String] = []
-        var partialString:String = ""
+        var partialString:String = ParserConstants.emptyString
         var state = 0;
-        for (index, char) in self.htmlString.enumerated() {
+        for (index, char) in self.parserModel.htmlString.enumerated() {
             if char == "<" {
                 switch state {
                 case 0: state = 1
-                partialString = ""
+                partialString = ParserConstants.emptyString
                     break
-                case 1: delegate?.unableToParse("Bad string")
+                case 1: delegate?.unableToParse(ParserConstants.badString)
                     return
                 case 2:
-                    if partialString != ""  {
+                    if partialString != ParserConstants.emptyString  {
                         parseStack.append(partialString)
                     }
-                    if index + 1 < htmlString.count && htmlString[index + 1] == "/" {
+                    if index + 1 < self.parserModel.htmlString.count && self.parserModel.htmlString[index + 1] == "/" {
                         state = 3
                     } else {
                         state = 1
                     }
-                    partialString = ""
+                    partialString = ParserConstants.emptyString
                     break
-                case 3: delegate?.unableToParse("Bad string")
+                case 3: delegate?.unableToParse(ParserConstants.badString)
                     return
-                case 4: delegate?.unableToParse("Bad string")
+                case 4: delegate?.unableToParse(ParserConstants.badString)
                     return
-                default: delegate?.unableToParse("Bad string")
+                default: delegate?.unableToParse(ParserConstants.badString)
                     return
                 }
             } else if char == ">" {
                 switch state {
-                case 0: delegate?.unableToParse("Bad string")
+                case 0: delegate?.unableToParse(ParserConstants.badString)
                     return
                 case 1: state = 2
-                if partialString != ""  {
+                if partialString != ParserConstants.emptyString  {
                     parseStack.append("\\" + partialString)
                 }
-                partialString = ""
+                partialString = ParserConstants.emptyString
                     break
-                case 2: delegate?.unableToParse("Bad string")
+                case 2: delegate?.unableToParse(ParserConstants.badString)
                     return
-                case 3: delegate?.unableToParse("Bad string")
+                case 3: delegate?.unableToParse(ParserConstants.badString)
                     return
                 case 4: state = 2
-                if partialString != ""  {
+                if partialString != ParserConstants.emptyString  {
                     parseStack.append(partialString)
                 }
-                partialString = ""
+                partialString = ParserConstants.emptyString
                     break
-                default: delegate?.unableToParse("Bad string")
+                default: delegate?.unableToParse(ParserConstants.badString)
                     return
                 }
             } else if char == "/"{
                 switch state {
-                case 0: delegate?.unableToParse("Bad string")
+                case 0: delegate?.unableToParse(ParserConstants.badString)
                     return
-                case 1: delegate?.unableToParse("Bad string")
+                case 1: delegate?.unableToParse(ParserConstants.badString)
                     return
-                case 2: delegate?.unableToParse("Bad string")
+                case 2: delegate?.unableToParse(ParserConstants.badString)
                     return
                 case 3: state = 4
                 partialString += String(char)
                     break
-                case 4: delegate?.unableToParse("Bad string")
+                case 4: delegate?.unableToParse(ParserConstants.badString)
                     return
-                default: delegate?.unableToParse("Bad string")
+                default: delegate?.unableToParse(ParserConstants.badString)
                     return
                 }
             } else {
                 switch state {
-                case 0: delegate?.unableToParse("Bad string")
+                case 0: delegate?.unableToParse(ParserConstants.badString)
                     return
                 case 1: partialString += String(char)
                     break
                 case 2: partialString += String(char)
                     break
-                case 3: delegate?.unableToParse("Bad string")
+                case 3: delegate?.unableToParse(ParserConstants.badString)
                     return
                 case 4: partialString += String(char)
-                default: delegate?.unableToParse("Bad string")
+                default: delegate?.unableToParse(ParserConstants.badString)
                     return
                 }
             }
         }
         for elem in parseStack {
-            parseStackStringForm.append(elem)
+            self.parserModel.parseStackStringForm.append(elem)
         }
-        for elem in parseStackStringForm {
+        for elem in self.parserModel.parseStackStringForm {
             print(elem)
         }
     }
-}
-
-class Tag {
-    var tagName:String
-    var attributes:[[String: Any]]
-    
-    init(tagName:String, attributes: [[String: Any]]) {
-        self.tagName = tagName
-        self.attributes = attributes
-    }
-    
-    func defaultAttribute() {
-        
-    }
-}
-
-class B_Tag: Tag {
-    override init(tagName: String, attributes: [[String : Any]]) {
-        super.init(tagName: "b", attributes: attributes)
-    }
-    
-    override func defaultAttribute() {
-        
-    }
-}
-
-class I_Tag: Tag {
-    
-}
-
-class Big_Tag: Tag {
-    
-}
-
-class Small_Tag: Tag {
-    
-}
-
-class Br_Tag: Tag {
-    
-}
-
-class Font_Tag: Tag {
-    
-}
-
-extension String {
-    subscript (i: Int) -> Character {
-        return self[index(startIndex, offsetBy: i)]
-    }
-    subscript (bounds: CountableRange<Int>) -> Substring {
-        let start = index(startIndex, offsetBy: bounds.lowerBound)
-        let end = index(startIndex, offsetBy: bounds.upperBound)
-        return self[start ..< end]
-    }
-    subscript (bounds: CountableClosedRange<Int>) -> Substring {
-        let start = index(startIndex, offsetBy: bounds.lowerBound)
-        let end = index(startIndex, offsetBy: bounds.upperBound)
-        return self[start ... end]
-    }
-    subscript (bounds: CountablePartialRangeFrom<Int>) -> Substring {
-        let start = index(startIndex, offsetBy: bounds.lowerBound)
-        let end = index(endIndex, offsetBy: -1)
-        return self[start ... end]
-    }
-    subscript (bounds: PartialRangeThrough<Int>) -> Substring {
-        let end = index(startIndex, offsetBy: bounds.upperBound)
-        return self[startIndex ... end]
-    }
-    subscript (bounds: PartialRangeUpTo<Int>) -> Substring {
-        let end = index(startIndex, offsetBy: bounds.upperBound)
-        return self[startIndex ..< end]
-    }
-    func popFront() -> String? {
-        guard self.count == 0 else {
-            return nil
-        }
-        var res:String = ""
-        for (index, char) in self.enumerated() {
-            if index == 0 {
-                continue
-            } else {
-                res += String(char)
-            }
-        }
-        return res
-    }
-}
-
-class ParserConstants {
-    public static let openingTagLimiter:Character = "\\"
-    public static let closingTagLimiter:Character = "/"
-    public static let openingDefault:String = "<normal>"
-    public static let closingDefault:String = "</normal>"
-    public static let emptyString:String = ""
-    public static let unableToParseMessage:String = "Unable to parse, something is wrong with your string"
 }

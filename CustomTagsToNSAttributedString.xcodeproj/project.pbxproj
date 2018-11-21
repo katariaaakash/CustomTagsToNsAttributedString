@@ -14,6 +14,11 @@
 		D6A39EA021A51441004FF340 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D6A39E9F21A51441004FF340 /* Assets.xcassets */; };
 		D6A39EA321A51441004FF340 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D6A39EA121A51441004FF340 /* LaunchScreen.storyboard */; };
 		D6A39EAC21A51553004FF340 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6A39EAB21A51553004FF340 /* Parser.swift */; };
+		D6A39EAF21A5BD41004FF340 /* Tags.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6A39EAE21A5BD41004FF340 /* Tags.swift */; };
+		D6A39EB121A5BD95004FF340 /* FeatureContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6A39EB021A5BD95004FF340 /* FeatureContainer.swift */; };
+		D6A39EB321A5BDDD004FF340 /* ParserConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6A39EB221A5BDDD004FF340 /* ParserConstants.swift */; };
+		D6A39EB521A5BFF8004FF340 /* ParserUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6A39EB421A5BFF8004FF340 /* ParserUtils.swift */; };
+		D6A39EB721A5C12D004FF340 /* ParserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6A39EB621A5C12D004FF340 /* ParserModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +31,11 @@
 		D6A39EA221A51441004FF340 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D6A39EA421A51441004FF340 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D6A39EAB21A51553004FF340 /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
+		D6A39EAE21A5BD41004FF340 /* Tags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tags.swift; sourceTree = "<group>"; };
+		D6A39EB021A5BD95004FF340 /* FeatureContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureContainer.swift; sourceTree = "<group>"; };
+		D6A39EB221A5BDDD004FF340 /* ParserConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParserConstants.swift; sourceTree = "<group>"; };
+		D6A39EB421A5BFF8004FF340 /* ParserUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParserUtils.swift; sourceTree = "<group>"; };
+		D6A39EB621A5C12D004FF340 /* ParserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParserModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,7 +83,12 @@
 		D6A39EAA21A51541004FF340 /* Parser */ = {
 			isa = PBXGroup;
 			children = (
+				D6A39EAE21A5BD41004FF340 /* Tags.swift */,
+				D6A39EB021A5BD95004FF340 /* FeatureContainer.swift */,
 				D6A39EAB21A51553004FF340 /* Parser.swift */,
+				D6A39EB221A5BDDD004FF340 /* ParserConstants.swift */,
+				D6A39EB421A5BFF8004FF340 /* ParserUtils.swift */,
+				D6A39EB621A5C12D004FF340 /* ParserModel.swift */,
 			);
 			path = Parser;
 			sourceTree = "<group>";
@@ -151,7 +166,12 @@
 			files = (
 				D6A39EAC21A51553004FF340 /* Parser.swift in Sources */,
 				D6A39E9821A51440004FF340 /* ViewController.swift in Sources */,
+				D6A39EB521A5BFF8004FF340 /* ParserUtils.swift in Sources */,
 				D6A39E9E21A51440004FF340 /* CustomTagsToNSAttributedString.xcdatamodeld in Sources */,
+				D6A39EB321A5BDDD004FF340 /* ParserConstants.swift in Sources */,
+				D6A39EB721A5C12D004FF340 /* ParserModel.swift in Sources */,
+				D6A39EAF21A5BD41004FF340 /* Tags.swift in Sources */,
+				D6A39EB121A5BD95004FF340 /* FeatureContainer.swift in Sources */,
 				D6A39E9621A51440004FF340 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
