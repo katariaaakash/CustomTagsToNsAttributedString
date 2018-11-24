@@ -10,16 +10,12 @@ import Foundation
 import UIKit
 
 class ParserModel {
-    var htmlString: String {
-        didSet {
-            htmlString = ParserConstants.openingDefault + htmlString + ParserConstants.closingDefault
-        }
-    }
+    var htmlString: String
     var parseStackStringForm: [String] = []
     var initialFont: UIFont
     
     init(htmlString: String, initialFont: UIFont) {
-        self.htmlString = htmlString
+        self.htmlString = ParserConstants.openingDefault + htmlString + ParserConstants.closingDefault
         self.initialFont = initialFont
     }
 }

@@ -10,15 +10,12 @@ import Foundation
 import UIKit
 
 class FeatureContainer {
-    var font:UIFont?
+    var fontSize: CGFloat?
+    var isBold: Bool?
+    var isItalics: Bool?
+    var fontType: String?
     var color:UIColor?
     var link:String?
-    
-    init(font:UIFont?, color:UIColor?, link:String?) {
-        self.font = font
-        self.color = color
-        self.link = link
-    }
     
     init() {
         

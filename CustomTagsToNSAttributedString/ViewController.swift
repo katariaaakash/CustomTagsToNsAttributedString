@@ -9,12 +9,17 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    
     var parser: Parser!
-
+    
     @IBOutlet weak var outputParsedString: UILabel!
     @IBAction func parseButton(_ sender: Any) {
-        parser = Parser(htmlString: htmlStringInput.text!)
+        guard let initialFont = UIFont.init(name: "Helvetica", size: 20) else {
+            print("set a correct initial fontm or something went wrong")
+            return
+        }
+        let parserModel = ParserModel.init(htmlString: "this is <b> bold </b> text", initialFont: initialFont)
+        parser = Parser(parserModel: parserModel)
         parser.delegate = self
         parser.parseString()
     }
@@ -33,5 +38,3 @@ extension ViewController: ParserDelegate {
         
     }
 }
-
-

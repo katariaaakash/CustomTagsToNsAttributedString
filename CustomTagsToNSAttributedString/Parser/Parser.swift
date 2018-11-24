@@ -43,7 +43,10 @@ extension Parser {
     
     func getFeatureFromTag(stringParts: [String]) -> FeatureContainer? {
         var tag:String = stringParts[0]
-        var attributes:[String] = Array(stringParts[1...stringParts.count-1])
+        var attributes:[String] = []
+        if stringParts.count-1 >= 1 {
+            attributes = Array(stringParts[1...stringParts.count-1])
+        }
         guard let tagObj:Tag = ParserUtils.getTag(tag: tag, attributes: attributes) else {
             self.delegate?.unableToParse(ParserConstants.badString)
             return nil
@@ -67,7 +70,12 @@ extension Parser {
                 }
                 var stringParts = openingTag.components(separatedBy: " ")
                 if let featureFromTag = getFeatureFromTag(stringParts: stringParts) {
-                    features.append(featureFromTag)
+                    if features.count == 0 {
+                        features.append(featureFromTag)
+                    }
+                    else {
+                        features.append(ParserUtils.getUpdatedFeature(topFeature: features[features.count-1], incomingFeature: featureFromTag))
+                    }
                 }
                 else {
                     self.delegate?.unableToParse(ParserConstants.badString)

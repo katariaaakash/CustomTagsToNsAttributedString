@@ -22,6 +22,8 @@ class ParserUtils {
             return Big_Tag(tagName: tag, attributes: getAttributeDictionary(attributes: attributes))
         case ParserConstants.TagTypes.font.rawValue:
             return Font_Tag(tagName: tag, attributes: getAttributeDictionary(attributes: attributes))
+        case ParserConstants.TagTypes.normal.rawValue:
+            return Normal_Tag(tagName: tag, attributes: getAttributeDictionary(attributes: attributes))
         default:
             return nil
         }
@@ -41,13 +43,65 @@ class ParserUtils {
     
     static func getPartialAttributedString(partialUnParsedString: String, feature: FeatureContainer) -> NSAttributedString? {
         guard let color = feature.color,
-            let font = feature.font else {
-            return nil
+            let font = getFontFromFeature(feature: feature) else {
+                return nil
         }
         let attribute = [NSAttributedString.Key.underlineColor: color,
                          NSAttributedString.Key.font: font]
         let nsAttributedString = NSAttributedString.init(string: partialUnParsedString, attributes: attribute)
         return nsAttributedString
+    }
+    
+    static func getFontFromFeature(feature: FeatureContainer) -> UIFont? {
+        guard let fontType: String = feature.fontType,
+            let fontSize: CGFloat = feature.fontSize,
+            let isBold: Bool = feature.isBold,
+            let isItalics: Bool = feature.isItalics,
+            var font: UIFont = UIFont.init(name: fontType, size: fontSize) else {
+                return nil
+        }
+        if isBold {
+            font = font.bold()
+        }
+        if isItalics {
+            font = font.italic()
+        }
+        return font
+    }
+    
+    static func getUpdatedFeature(topFeature: FeatureContainer, incomingFeature: FeatureContainer) -> FeatureContainer {
+        var updatedFeature: FeatureContainer = FeatureContainer()
+        if incomingFeature.color == nil {
+            updatedFeature.color = topFeature.color
+        } else {
+            updatedFeature.color = incomingFeature.color
+        }
+        if incomingFeature.fontType == nil {
+            updatedFeature.fontType = topFeature.fontType
+        } else {
+            updatedFeature.fontType = incomingFeature.fontType
+        }
+        if incomingFeature.fontSize == nil {
+            updatedFeature.fontSize = topFeature.fontSize
+        } else {
+            updatedFeature.fontSize = incomingFeature.fontSize
+        }
+        if incomingFeature.isBold == nil {
+            updatedFeature.isBold = topFeature.isBold
+        } else {
+            updatedFeature.isBold = incomingFeature.isBold
+        }
+        if incomingFeature.isItalics == nil {
+            updatedFeature.isItalics = topFeature.isItalics
+        } else {
+            updatedFeature.isItalics = incomingFeature.isItalics
+        }
+        if incomingFeature.link == nil {
+            updatedFeature.link = topFeature.link
+        } else {
+            updatedFeature.link = incomingFeature.link
+        }
+        return updatedFeature
     }
 }
 
@@ -102,7 +156,7 @@ extension String {
         return self[startIndex ..< end]
     }
     func popFront() -> String? {
-        guard self.count == 0 else {
+        guard self.count != 0 else {
             return nil
         }
         var res:String = ""
