@@ -24,7 +24,7 @@ class ParserUtils {
         return true
     }
     
-    static func getTag(tag: String, attributes:[String]) -> Tag? {
+    static func getTag(tag: String, attributes:[String], initFeature: FeatureContainer) -> Tag? {
         switch tag {
         case ParserConstants.TagTypes.bold.rawValue:
             return B_Tag(tagName: tag, attributes: getAttributeDictionary(attributes: attributes))
@@ -37,7 +37,7 @@ class ParserUtils {
         case ParserConstants.TagTypes.font.rawValue:
             return Font_Tag(tagName: tag, attributes: getAttributeDictionary(attributes: attributes))
         case ParserConstants.TagTypes.normal.rawValue:
-            return Normal_Tag(tagName: tag, attributes: getAttributeDictionary(attributes: attributes))
+            return Normal_Tag(tagName: tag, attributes: getAttributeDictionary(attributes: attributes), initFeature: initFeature)
         default:
             return nil
         }

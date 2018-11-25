@@ -12,11 +12,11 @@ import UIKit
 class ParserModel {
     var htmlString: String
     var parseStackStringForm: [String] = []
-    var initialFont: UIFont
+    var initialFeatureContainer: FeatureContainer
     
-    init(htmlString: String, initialFont: UIFont) {
+    init(htmlString: String, initialFeatureContainer: FeatureContainer) {
         self.htmlString = ParserConstants.openingDefault + htmlString + ParserConstants.closingDefault
         self.htmlString = self.htmlString.replacingOccurrences(of: ParserConstants.breakTag, with: ParserConstants.breakLine, options: .literal, range: nil)
-        self.initialFont = initialFont
+        self.initialFeatureContainer = initialFeatureContainer
     }
 }

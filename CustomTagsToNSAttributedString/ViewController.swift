@@ -15,12 +15,15 @@ class ViewController: UIViewController {
     @IBOutlet weak var htmlStringInput: UITextField!
     @IBOutlet weak var outputParsedString: UITextView!
     @IBAction func parseButton(_ sender: Any) {
-        guard let initialFont = UIFont.init(name: "Helvetica", size: 20),
-            let stringText = htmlStringInput.text else {
+        guard let stringText = htmlStringInput.text else {
             print("set a correct initial fontm or something went wrong")
             return
         }
-        let parserModel = ParserModel.init(htmlString: stringText, initialFont: initialFont)
+        let initialFeatureContainer:FeatureContainer = FeatureContainer();
+        initialFeatureContainer.fontSize = 14.0
+        initialFeatureContainer.fontType = "Arial"
+        initialFeatureContainer.color = UIColor.black
+        let parserModel = ParserModel.init(htmlString: stringText, initialFeatureContainer: initialFeatureContainer)
         parser = Parser(parserModel: parserModel)
         parser.delegate = self
         if let attributedString = parser.parseString(){

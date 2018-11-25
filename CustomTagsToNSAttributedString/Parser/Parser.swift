@@ -34,7 +34,7 @@ class Parser {
 
 extension Parser {
     func getTagFromString(tag:String, attributes:[String]) -> Tag? {
-        guard let tag: Tag = ParserUtils.getTag(tag: tag, attributes: attributes) else {
+        guard let tag: Tag = ParserUtils.getTag(tag: tag, attributes: attributes, initFeature: parserModel.initialFeatureContainer) else {
             return nil
         }
         return tag
@@ -46,7 +46,7 @@ extension Parser {
         if stringParts.count > 1 {
             attributes = Array(stringParts[1...stringParts.count-1])
         }
-        guard let tagObj:Tag = ParserUtils.getTag(tag: tag, attributes: attributes) else {
+        guard let tagObj:Tag = ParserUtils.getTag(tag: tag, attributes: attributes, initFeature: parserModel.initialFeatureContainer) else {
             self.delegate?.unableToParse(ParserConstants.badString)
             return nil
         }

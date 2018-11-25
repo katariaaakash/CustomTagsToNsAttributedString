@@ -70,17 +70,19 @@ class Small_Tag: Tag {
 }
 
 class Normal_Tag: Tag {
-    override init(tagName: String, attributes: [String : Any]) {
+    var initFeature: FeatureContainer
+    init(tagName: String, attributes: [String : Any], initFeature: FeatureContainer) {
+        self.initFeature = initFeature
         super.init(tagName: "normal", attributes: attributes)
         defaultAttribute()
     }
     
     override func defaultAttribute() {
-        featureContainer?.color = ParserConstants.defaultTextColor
-        featureContainer?.fontSize = 14.0
-        featureContainer?.fontType = "Arial"
-        featureContainer?.isBold = false
-        featureContainer?.isItalics = false
+        featureContainer?.color = initFeature.color ?? ParserConstants.defaultTextColor
+        featureContainer?.fontSize = initFeature.fontSize ?? 14.0
+        featureContainer?.fontType = initFeature.fontType ?? "Arial"
+        featureContainer?.isBold = initFeature.isBold ?? false
+        featureContainer?.isItalics = initFeature.isItalics ?? false
     }
 }
 
