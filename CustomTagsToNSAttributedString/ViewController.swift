@@ -21,12 +21,16 @@ class ViewController: UIViewController {
         let parserModel = ParserModel.init(htmlString: "this is <b> bold </b> text", initialFont: initialFont)
         parser = Parser(parserModel: parserModel)
         parser.delegate = self
-        parser.parseString()
+        if let attributedString = parser.parseString(){
+            outputParsedString.attributedText = attributedString
+        } else {
+            outputParsedString.text = ParserConstants.unableToParse
+        }
+        
     }
     @IBOutlet weak var htmlStringInput: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
     }
 }
 
