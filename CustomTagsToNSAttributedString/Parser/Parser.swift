@@ -6,7 +6,6 @@
 //  Copyright © 2018 Aakash Kataria. All rights reserved.
 //
 
-// UIFont, UIColor
 import Foundation
 import UIKit
 

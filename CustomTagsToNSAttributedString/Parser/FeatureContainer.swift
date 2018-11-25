@@ -20,4 +20,39 @@ class FeatureContainer {
     init() {
         
     }
+    
+    func union(oldFeature: FeatureContainer) -> FeatureContainer {
+        let updatedFeature: FeatureContainer = FeatureContainer()
+        if self.color == nil {
+            updatedFeature.color = oldFeature.color
+        } else {
+            updatedFeature.color = self.color
+        }
+        if self.fontType == nil {
+            updatedFeature.fontType = oldFeature.fontType
+        } else {
+            updatedFeature.fontType = self.fontType
+        }
+        if self.fontSize == nil {
+            updatedFeature.fontSize = oldFeature.fontSize
+        } else {
+            updatedFeature.fontSize = self.fontSize
+        }
+        if self.isBold == nil {
+            updatedFeature.isBold = oldFeature.isBold
+        } else {
+            updatedFeature.isBold = self.isBold
+        }
+        if self.isItalics == nil {
+            updatedFeature.isItalics = oldFeature.isItalics
+        } else {
+            updatedFeature.isItalics = self.isItalics
+        }
+        if self.link == nil {
+            updatedFeature.link = oldFeature.link
+        } else {
+            updatedFeature.link = self.link
+        }
+        return updatedFeature
+    }
 }

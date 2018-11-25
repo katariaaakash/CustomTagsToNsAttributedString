@@ -51,8 +51,8 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
-                        <outlet property="htmlStringInput" destination="9Vg-FW-mLk" id="KbQ-Bb-8vR"/>
-                        <outlet property="outputParsedString" destination="9Vg-FW-mLk" id="7ZC-4I-Tbo"/>
+                        <outlet property="htmlStringInput" destination="Fyk-mx-WZM" id="7HX-pZ-PR9"/>
+                        <outlet property="outputParsedString" destination="9Vg-FW-mLk" id="vIz-X9-cL3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

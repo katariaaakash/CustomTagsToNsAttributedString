@@ -12,13 +12,15 @@ class ViewController: UIViewController {
     
     var parser: Parser!
     
+    @IBOutlet weak var htmlStringInput: UITextField!
     @IBOutlet weak var outputParsedString: UILabel!
     @IBAction func parseButton(_ sender: Any) {
-        guard let initialFont = UIFont.init(name: "Helvetica", size: 20) else {
+        guard let initialFont = UIFont.init(name: "Helvetica", size: 20),
+            let stringText = htmlStringInput.text else {
             print("set a correct initial fontm or something went wrong")
             return
         }
-        let parserModel = ParserModel.init(htmlString: "this is <b> bold </b> text", initialFont: initialFont)
+        let parserModel = ParserModel.init(htmlString: stringText, initialFont: initialFont)
         parser = Parser(parserModel: parserModel)
         parser.delegate = self
         if let attributedString = parser.parseString(){
@@ -28,7 +30,6 @@ class ViewController: UIViewController {
         }
         
     }
-    @IBOutlet weak var htmlStringInput: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
     }
