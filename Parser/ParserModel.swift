@@ -16,6 +16,7 @@ class ParserModel {
     
     init(htmlString: String, initialFont: UIFont) {
         self.htmlString = ParserConstants.openingDefault + htmlString + ParserConstants.closingDefault
+        self.htmlString = self.htmlString.replacingOccurrences(of: ParserConstants.breakTag, with: ParserConstants.breakLine, options: .literal, range: nil)
         self.initialFont = initialFont
     }
 }

@@ -23,6 +23,8 @@ class ParserConstants {
     public static let badString:String = "Bad string"
     public static let leftTagBodyBracket:Character = "<"
     public static let rightTagBodyBracket:Character = ">"
+    public static let breakTag:String = "<br>"
+    public static let breakLine:String = "\n"
     public static let defaultTextColor:UIColor = UIColor.black
     
     

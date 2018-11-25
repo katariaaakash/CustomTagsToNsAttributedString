@@ -13,7 +13,7 @@ class ViewController: UIViewController {
     var parser: Parser!
     
     @IBOutlet weak var htmlStringInput: UITextField!
-    @IBOutlet weak var outputParsedString: UILabel!
+    @IBOutlet weak var outputParsedString: UITextView!
     @IBAction func parseButton(_ sender: Any) {
         guard let initialFont = UIFont.init(name: "Helvetica", size: 20),
             let stringText = htmlStringInput.text else {
