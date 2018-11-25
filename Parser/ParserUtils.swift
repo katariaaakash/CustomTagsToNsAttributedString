@@ -46,8 +46,7 @@ class ParserUtils {
             let font = getFontFromFeature(feature: feature) else {
                 return nil
         }
-        let attribute = [NSAttributedString.Key.underlineColor: color,
-                         NSAttributedString.Key.font: font]
+        let attribute = [NSAttributedString.Key.foregroundColor: color, NSAttributedString.Key.font: font]
         let nsAttributedString = NSAttributedString.init(string: partialUnParsedString, attributes: attribute)
         return nsAttributedString
     }
@@ -60,48 +59,18 @@ class ParserUtils {
             var font: UIFont = UIFont.init(name: fontType, size: fontSize) else {
                 return nil
         }
-        if isBold {
+        if isBold && isItalics {
+            font = font.boldItalics()
+        } else if isBold {
             font = font.bold()
-        }
-        if isItalics {
+        } else if isItalics {
             font = font.italic()
         }
         return font
     }
     
     static func getUpdatedFeature(topFeature: FeatureContainer, incomingFeature: FeatureContainer) -> FeatureContainer {
-        let updatedFeature: FeatureContainer = FeatureContainer()
-        if incomingFeature.color == nil {
-            updatedFeature.color = topFeature.color
-        } else {
-            updatedFeature.color = incomingFeature.color
-        }
-        if incomingFeature.fontType == nil {
-            updatedFeature.fontType = topFeature.fontType
-        } else {
-            updatedFeature.fontType = incomingFeature.fontType
-        }
-        if incomingFeature.fontSize == nil {
-            updatedFeature.fontSize = topFeature.fontSize
-        } else {
-            updatedFeature.fontSize = incomingFeature.fontSize
-        }
-        if incomingFeature.isBold == nil {
-            updatedFeature.isBold = topFeature.isBold
-        } else {
-            updatedFeature.isBold = incomingFeature.isBold
-        }
-        if incomingFeature.isItalics == nil {
-            updatedFeature.isItalics = topFeature.isItalics
-        } else {
-            updatedFeature.isItalics = incomingFeature.isItalics
-        }
-        if incomingFeature.link == nil {
-            updatedFeature.link = topFeature.link
-        } else {
-            updatedFeature.link = incomingFeature.link
-        }
-        return updatedFeature
+        return incomingFeature.union(oldFeature: topFeature)
     }
 }
 
@@ -117,6 +86,10 @@ extension UIFont {
     
     func italic() -> UIFont {
         return withTraits(traits: .traitItalic)
+    }
+    
+    func boldItalics() -> UIFont {
+        return withTraits(traits: [.traitBold, .traitItalic])
     }
     
     var isBold: Bool {
@@ -169,4 +142,25 @@ extension String {
         }
         return res
     }
+}
+
+extension UIColor {
+    func hexToColor(hexString: String, alpha:CGFloat? = 1.0) -> UIColor {
+        let hexint = Int(self.intFromHexString(hexStr: hexString))
+        let red = CGFloat((hexint & 0xff0000) >> 16) / 255.0
+        let green = CGFloat((hexint & 0xff00) >> 8) / 255.0
+        let blue = CGFloat((hexint & 0xff) >> 0) / 255.0
+        let alpha = alpha!
+        let color = UIColor(red: red, green: green, blue: blue, alpha: alpha)
+        return color
+    }
+    
+    func intFromHexString(hexStr: String) -> UInt32 {
+        var hexInt: UInt32 = 0
+        let scanner: Scanner = Scanner(string: hexStr)
+        scanner.charactersToBeSkipped = CharacterSet.init(charactersIn: "#")
+        scanner.scanHexInt32(&hexInt)
+        return hexInt
+    }
+
 }

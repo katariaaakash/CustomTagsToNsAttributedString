@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 class Tag {
     var tagName: String
@@ -97,9 +98,24 @@ class Font_Tag: Tag {
     override init(tagName: String, attributes: [String : Any]) {
         super.init(tagName: "font", attributes: attributes)
         defaultAttribute()
+        applyAttributes()
     }
     
     override func defaultAttribute() {
+    }
+    
+    func applyAttributes() {
+        for (key, value) in attributes {
+            guard let value = value as? String else {
+                return
+            }
+            switch key {
+            case "color":
+                featureContainer?.color = UIColor().hexToColor(hexString: value, alpha: 1.0)
+                break
+            default: break
+            }
+        }
     }
 }
 
