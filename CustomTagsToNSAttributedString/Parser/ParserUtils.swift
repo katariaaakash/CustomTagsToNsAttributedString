@@ -10,6 +10,20 @@ import Foundation
 import UIKit
 
 class ParserUtils {
+    static func checkIfAppendedString(text: String, key: String) -> Bool {
+        if key.count > text.count {
+            return false
+        }
+        var i = 0;
+        while i < key.count {
+            if text[i] != key[i] {
+                return false
+            }
+            i += 1
+        }
+        return true
+    }
+    
     static func getTag(tag: String, attributes:[String]) -> Tag? {
         switch tag {
         case ParserConstants.TagTypes.bold.rawValue:
@@ -141,6 +155,10 @@ extension String {
             }
         }
         return res
+    }
+    func deletePrefix(prefix: String) -> String? {
+        guard self.hasPrefix(prefix) else { return nil }
+        return String(self.dropFirst(prefix.count))
     }
 }
 

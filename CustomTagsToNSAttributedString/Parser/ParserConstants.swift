@@ -10,15 +10,22 @@ import Foundation
 import UIKit
 
 class ParserConstants {
-    public static let openingTagLimiter:Character = "\\"
-    public static let closingTagLimiter:Character = "/"
+    public static let openingTagLimiter:String = "openDelimitter"
+    public static let closingTagLimiter:String = "closingDelimitter"
+    public static let forwardSlash:Character = "/"
+    public static let backwardSlash:Character = "\\"
     public static let openingDefault:String = "<normal>"
     public static let closingDefault:String = "</normal>"
     public static let emptyString:String = ""
+    public static let singleSpace:String = " "
     public static let unableToParseMessage:String = "Unable to parse, something is wrong with your string"
     public static let unableToParse:String = "Unable to parse"
     public static let badString:String = "Bad string"
+    public static let leftTagBodyBracket:Character = "<"
+    public static let rightTagBodyBracket:Character = ">"
     public static let defaultTextColor:UIColor = UIColor.black
+    
+    
     
     public enum TagTypes: String {
         case normal = "normal"

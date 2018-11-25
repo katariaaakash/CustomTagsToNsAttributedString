@@ -55,18 +55,18 @@ extension Parser {
     
     func getAttributedString() -> NSAttributedString? {
         let finalAttributedString:NSMutableAttributedString = NSMutableAttributedString.init()
-        var partialUnParsedString: String = ""
+        var partialUnParsedString: String = ParserConstants.emptyString
         var features:[FeatureContainer] = []
         for elem in self.parserModel.parseStackStringForm {
             guard elem.count > 0 else {
                 return nil
             }
-            if elem[0] == ParserConstants.openingTagLimiter {
-                guard let openingTag = elem.popFront() else {
+            if elem.hasPrefix(ParserConstants.openingTagLimiter) {
+                guard let openingTag = elem.deletePrefix(prefix: ParserConstants.openingTagLimiter) else {
                     delegate?.unableToParse(ParserConstants.unableToParseMessage)
                     return nil
                 }
-                let stringParts = openingTag.components(separatedBy: " ")
+                let stringParts = openingTag.components(separatedBy: ParserConstants.singleSpace)
                 if let featureFromTag = getFeatureFromTag(stringParts: stringParts) {
                     if features.count == 0 {
                         features.append(featureFromTag)
@@ -79,7 +79,7 @@ extension Parser {
                     self.delegate?.unableToParse(ParserConstants.badString)
                     return nil
                 }
-            } else if elem[0] == ParserConstants.closingTagLimiter {
+            } else if elem.hasPrefix(ParserConstants.closingTagLimiter) {
                 features.popLast()
             } else {
                 partialUnParsedString = elem
@@ -100,7 +100,7 @@ extension Parser {
         var partialString:String = ParserConstants.emptyString
         var state = 0;
         for (index, char) in self.parserModel.htmlString.enumerated() {
-            if char == "<" {
+            if char == ParserConstants.leftTagBodyBracket {
                 switch state {
                 case 0: state = 1
                 partialString = ParserConstants.emptyString
@@ -125,13 +125,13 @@ extension Parser {
                 default: delegate?.unableToParse(ParserConstants.badString)
                     return
                 }
-            } else if char == ">" {
+            } else if char == ParserConstants.rightTagBodyBracket {
                 switch state {
                 case 0: delegate?.unableToParse(ParserConstants.badString)
                     return
                 case 1: state = 2
                 if partialString != ParserConstants.emptyString  {
-                    parseStack.append("\\" + partialString)
+                    parseStack.append(ParserConstants.openingTagLimiter + partialString)
                 }
                 partialString = ParserConstants.emptyString
                     break
@@ -148,16 +148,16 @@ extension Parser {
                 default: delegate?.unableToParse(ParserConstants.badString)
                     return
                 }
-            } else if char == "/"{
+            } else if char == ParserConstants.forwardSlash {
                 switch state {
                 case 0: delegate?.unableToParse(ParserConstants.badString)
                     return
                 case 1: delegate?.unableToParse(ParserConstants.badString)
                     return
-                case 2: delegate?.unableToParse(ParserConstants.badString)
-                    return
+                case 2: partialString += String(char)
+                    break
                 case 3: state = 4
-                partialString += String(char)
+                partialString += String(ParserConstants.closingTagLimiter)
                     break
                 case 4: delegate?.unableToParse(ParserConstants.badString)
                     return
