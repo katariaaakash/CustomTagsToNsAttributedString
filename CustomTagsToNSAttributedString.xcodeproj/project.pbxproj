@@ -19,6 +19,7 @@
 		D6A39EB321A5BDDD004FF340 /* ParserConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6A39EB221A5BDDD004FF340 /* ParserConstants.swift */; };
 		D6A39EB521A5BFF8004FF340 /* ParserUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6A39EB421A5BFF8004FF340 /* ParserUtils.swift */; };
 		D6A39EB721A5C12D004FF340 /* ParserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6A39EB621A5C12D004FF340 /* ParserModel.swift */; };
+		D6CCC6B221D7A7890008893D /* ParserWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6CCC6B121D7A7890008893D /* ParserWrapper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		D6A39EB221A5BDDD004FF340 /* ParserConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParserConstants.swift; sourceTree = "<group>"; };
 		D6A39EB421A5BFF8004FF340 /* ParserUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParserUtils.swift; sourceTree = "<group>"; };
 		D6A39EB621A5C12D004FF340 /* ParserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParserModel.swift; sourceTree = "<group>"; };
+		D6CCC6B121D7A7890008893D /* ParserWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParserWrapper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,6 +91,7 @@
 				D6A39EB221A5BDDD004FF340 /* ParserConstants.swift */,
 				D6A39EB421A5BFF8004FF340 /* ParserUtils.swift */,
 				D6A39EB621A5C12D004FF340 /* ParserModel.swift */,
+				D6CCC6B121D7A7890008893D /* ParserWrapper.swift */,
 			);
 			path = Parser;
 			sourceTree = "<group>";
@@ -170,6 +173,7 @@
 				D6A39E9E21A51440004FF340 /* CustomTagsToNSAttributedString.xcdatamodeld in Sources */,
 				D6A39EB321A5BDDD004FF340 /* ParserConstants.swift in Sources */,
 				D6A39EB721A5C12D004FF340 /* ParserModel.swift in Sources */,
+				D6CCC6B221D7A7890008893D /* ParserWrapper.swift in Sources */,
 				D6A39EAF21A5BD41004FF340 /* Tags.swift in Sources */,
 				D6A39EB121A5BD95004FF340 /* FeatureContainer.swift in Sources */,
 				D6A39E9621A51440004FF340 /* AppDelegate.swift in Sources */,

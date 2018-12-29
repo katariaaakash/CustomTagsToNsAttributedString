@@ -10,8 +10,6 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    var parser: Parser!
-    
     @IBOutlet weak var htmlStringInput: UITextField!
     @IBOutlet weak var outputParsedString: UITextView!
     @IBAction func parseButton(_ sender: Any) {
@@ -23,10 +21,8 @@ class ViewController: UIViewController {
         initialFeatureContainer.fontSize = 14.0
         initialFeatureContainer.fontType = "Arial"
         initialFeatureContainer.color = UIColor.black
-        let parserModel = ParserModel.init(htmlString: stringText, initialFeatureContainer: initialFeatureContainer)
-        parser = Parser(parserModel: parserModel)
-        parser.delegate = self
-        if let attributedString = parser.parseString(){
+        let parserWrapper = ParserWrapper.init(mString: stringText, initialFeature: initialFeatureContainer)
+        if let attributedString = parserWrapper.Parse(){
             outputParsedString.attributedText = attributedString
         } else {
             outputParsedString.text = ParserConstants.unableToParse
@@ -35,14 +31,5 @@ class ViewController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-    }
-}
-
-extension ViewController: ParserDelegate {
-    func unableToParse(_ message: String) {
-        print(message)
-    }
-    func tagClassNotDefined(_ tag: String) {
-        
     }
 }
