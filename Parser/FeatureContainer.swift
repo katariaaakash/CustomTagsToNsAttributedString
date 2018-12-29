@@ -16,6 +16,7 @@ class FeatureContainer {
     var fontType: String?
     var color:UIColor?
     var link:String?
+    var isStrikedThrough:Bool?
     
     init() {
         
@@ -52,6 +53,11 @@ class FeatureContainer {
             updatedFeature.link = oldFeature.link
         } else {
             updatedFeature.link = self.link
+        }
+        if self.isStrikedThrough == nil {
+            updatedFeature.isStrikedThrough = oldFeature.isStrikedThrough
+        } else {
+            updatedFeature.isStrikedThrough = self.isStrikedThrough
         }
         return updatedFeature
     }

@@ -98,8 +98,11 @@ extension Parser {
     func parseHtmlString() {
         var parseStack:[String] = []
         var partialString:String = ParserConstants.emptyString
-        var state = 0;
-        for (index, char) in self.parserModel.htmlString.enumerated() {
+        var state = 0
+        var index = 0
+        var char = Character.init("a")
+        while index < self.parserModel.htmlString.count {
+            char = self.parserModel.htmlString[index]
             if char == ParserConstants.leftTagBodyBracket {
                 switch state {
                 case 0: state = 1
@@ -154,7 +157,9 @@ extension Parser {
                     return
                 case 1: delegate?.unableToParse(ParserConstants.badString)
                     return
-                case 2: partialString += String(char)
+                case 2: let nextchar = self.parserModel.htmlString[index+1]
+                partialString += String(nextchar)
+                index += 1
                     break
                 case 3: state = 4
                 partialString += String(ParserConstants.closingTagLimiter)
@@ -179,6 +184,7 @@ extension Parser {
                     return
                 }
             }
+            index += 1
         }
         for elem in parseStack {
             self.parserModel.parseStackStringForm.append(elem)

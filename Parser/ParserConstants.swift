@@ -37,5 +37,6 @@ class ParserConstants {
         case big = "big"
         case font = "font"
         case br = "br"
+        case strike = "strike"
     }
 }

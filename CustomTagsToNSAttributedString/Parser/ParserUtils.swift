@@ -34,6 +34,8 @@ class ParserUtils {
             return Small_Tag(tagName: tag, attributes: getAttributeDictionary(attributes: attributes))
         case ParserConstants.TagTypes.big.rawValue:
             return Big_Tag(tagName: tag, attributes: getAttributeDictionary(attributes: attributes))
+        case ParserConstants.TagTypes.strike.rawValue:
+            return Strike_Tag(tagName: tag, attributes: getAttributeDictionary(attributes: attributes))
         case ParserConstants.TagTypes.font.rawValue:
             return Font_Tag(tagName: tag, attributes: getAttributeDictionary(attributes: attributes))
         case ParserConstants.TagTypes.normal.rawValue:
@@ -60,7 +62,10 @@ class ParserUtils {
             let font = getFontFromFeature(feature: feature) else {
                 return nil
         }
-        let attribute = [NSAttributedString.Key.foregroundColor: color, NSAttributedString.Key.font: font]
+        var attribute = [NSAttributedString.Key.foregroundColor: color, NSAttributedString.Key.font: font]
+        if let isStrikedThrough = feature.isStrikedThrough, isStrikedThrough {
+            attribute[NSAttributedString.Key.strikethroughStyle] = NSNumber(value: NSUnderlineStyle.single.rawValue)
+        }
         let nsAttributedString = NSAttributedString.init(string: partialUnParsedString, attributes: attribute)
         return nsAttributedString
     }

@@ -96,6 +96,17 @@ class Br_Tag: Tag {
     }
 }
 
+class Strike_Tag: Tag {
+    override init(tagName: String, attributes: [String : Any]) {
+        super.init(tagName: "strike", attributes: attributes)
+        defaultAttribute()
+    }
+    
+    override func defaultAttribute() {
+        featureContainer?.isStrikedThrough = true
+    }
+}
+
 class Font_Tag: Tag {
     override init(tagName: String, attributes: [String : Any]) {
         super.init(tagName: "font", attributes: attributes)
