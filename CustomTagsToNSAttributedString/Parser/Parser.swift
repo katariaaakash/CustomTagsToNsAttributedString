@@ -158,9 +158,14 @@ extension Parser {
                 case 1: delegate?.unableToParse(ParserConstants.badString)
                     return
                 case 2: let nextchar = self.parserModel.htmlString[index+1]
-                partialString += String(nextchar)
-                index += 1
+                if nextchar == ParserConstants.leftTagBodyBracket || nextchar == ParserConstants.rightTagBodyBracket {
+                    partialString += String(nextchar)
+                    index += 1
                     break
+                } else {
+                    partialString += String(char)
+                    break
+                }
                 case 3: state = 4
                 partialString += String(ParserConstants.closingTagLimiter)
                     break
